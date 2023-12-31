@@ -1,0 +1,11 @@
+{
+  "name": "vue-simple-scroll",
+  "version": "0.0.1",
+  "description": "Simple seamless scroll component for vue.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Meruem117",
+  "license": "MIT"
+}
