@@ -20,7 +20,25 @@ export default {
 
 <script setup lang="ts">
 import { withDefaults, reactive, ref, computed, watch, nextTick, onMounted } from 'vue'
-import type { Props, State } from './index.d'
+
+export interface Props {
+    direction?: 'top' | 'bottom' | 'left' | 'right',
+    steep?: number,
+    roller?: boolean,
+    distance?: number,
+    data?: any[]
+}
+
+export interface State {
+    scrollDistance: number,
+    bodyHeight: number,
+    bodyWidth: number,
+    listHeight: number,
+    listWidth: number,
+    isCanScroll: boolean,
+    isStop: boolean,
+    animationFrame: number | null
+}
 
 const props = withDefaults(defineProps<Props>(), {
     direction: 'top',
@@ -187,3 +205,4 @@ function mousewheelFunc(e: WheelEvent) {
     display: inline-block;
 }
 </style>
+./types

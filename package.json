@@ -1,11 +1,16 @@
 {
   "name": "@meruem117/vue-simple-scroll",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.6",
   "type": "module",
   "author": "Meruem117",
   "license": "MIT",
   "description": "Copy of https://github.com/DavidJ-0/vue-j-scroll.js",
+  "keywords": [
+    "vue",
+    "typescript",
+    "scroll"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -23,9 +28,7 @@
     "vue": "^3.3.11"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.12",
     "@vitejs/plugin-vue": "^4.5.2",
-    "lodash-es": "^4.17.21",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-dts": "^3.7.0",
@@ -36,10 +39,17 @@
   ],
   "main": "dist/vue-simple-scroll.umd.js",
   "module": "dist/vue-simple-scroll.es.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/vue-simple-scroll.es.js",
-      "require": "./dist/vue-simple-scroll.umd.js"
+      "import": {
+        "default": "./dist/vue-simple-scroll.es.js",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/vue-simple-scroll.umd.js",
+        "types": "./dist/index.d.ts"
+      }
     },
     "./dist/style.css": "./dist/style.css"
   }

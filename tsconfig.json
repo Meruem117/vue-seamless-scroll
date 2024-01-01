@@ -24,9 +24,8 @@
     "declaration": true
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue"
+    "packages/**/*.ts",
+    "packages/**/*.vue",
   ],
   "references": [
     {
