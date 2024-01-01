@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "build:lib": "vite build --config vite.build.config.ts",
     "preview": "vite preview"
   },
   "repository": {
@@ -29,6 +28,7 @@
     "lodash-es": "^4.17.21",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
+    "vite-plugin-dts": "^3.7.0",
     "vue-tsc": "^1.8.25"
   },
   "files": [
