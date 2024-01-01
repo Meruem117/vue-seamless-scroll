@@ -1,12 +1,24 @@
 {
-  "name": "vue-simple-scroll",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@meruem117/vue-simple-scroll",
+  "private": false,
+  "version": "0.0.2",
   "type": "module",
+  "author": "Meruem117",
+  "license": "MIT",
+  "description": "Copy of https://github.com/DavidJ-0/vue-j-scroll.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build:lib": "vite build --config vite.build.config.ts",
     "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Meruem117/vue-simple-scroll"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
     "vue": "^3.3.11"
@@ -18,5 +30,17 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vue-tsc": "^1.8.25"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/vue-simple-scroll.umd.js",
+  "module": "dist/vue-simple-scroll.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-simple-scroll.es.js",
+      "require": "./dist/vue-simple-scroll.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css"
   }
 }
