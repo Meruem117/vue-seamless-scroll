@@ -1,9 +1,13 @@
 {
-  "name": "vue-simple-scroll",
+  "name": "@meruem117/vue-simple-scroll",
   "version": "0.0.1",
-  "description": "Simple seamless scroll component for vue.",
+  "description": "Copy of https://github.com/DavidJ-0/vue-j-scroll.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "keywords": [],
   "author": "Meruem117",
