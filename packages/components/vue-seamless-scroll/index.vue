@@ -14,7 +14,7 @@
 
 <script lang="ts">
 export default {
-    name: 'VueSimpleScroll'
+    name: 'VueSeamlessScroll'
 }
 </script>
 

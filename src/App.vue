@@ -1,8 +1,8 @@
 <template>
     <div class="box">
-        <vue-simple-scroll class="list" :data="data" direction="top" :steep="0.2" roller :distance="20">
+        <vue-seamless-scroll class="list" :data="data" direction="top" :steep="0.2" roller :distance="20">
             <div class="list-item" v-for="item, index in data" :key="index">{{ item.text }}</div>
-        </vue-simple-scroll>
+        </vue-seamless-scroll>
     </div>
 </template>
 

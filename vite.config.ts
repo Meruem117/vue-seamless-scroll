@@ -11,8 +11,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: 'packages/index.ts',
-      name: 'vue-simple-scroll',
-      fileName: (format) => `vue-simple-scroll.${format}.js`,
+      name: 'vue-seamless-scroll',
+      fileName: (format) => `vue-seamless-scroll.${format}.js`,
     },
     rollupOptions: {
       external: ['vue'],

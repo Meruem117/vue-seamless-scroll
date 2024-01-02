@@ -1,9 +1,9 @@
 // import type { App } from 'vue'
-// import VueSimpleScroll from './components/vue-simple-scroll.vue'
+// import VueSeamlessScroll from './components/vue-seamless-scroll.vue'
 
 // export default ({
 //     install: (app: App) => {
-//         app.component(VueSimpleScroll.name, VueSimpleScroll)
+//         app.component(VueSeamlessScroll.name, VueSeamlessScroll)
 //     }
 // })
 
