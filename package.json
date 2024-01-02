@@ -1,7 +1,25 @@
 {
-  "name": "vue2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@meruem117/vue-seamless-scroll",
+  "version": "0.0.5",
+  "private": false,
+  "author": "Meruem117",
+  "license": "MIT",
+  "description": "A simple vue seamless scroll component.",
+  "keywords": [
+    "vue",
+    "vue3",
+    "vite",
+    "typescript",
+    "scroll"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Meruem117/vue-seamless-scroll"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -39,5 +57,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/js/main.js"
 }
