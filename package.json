@@ -1,13 +1,15 @@
 {
   "name": "@meruem117/vue-seamless-scroll",
   "private": false,
-  "version": "0.0.2",
+  "version": "0.0.4",
   "type": "module",
   "author": "Meruem117",
   "license": "MIT",
-  "description": "Copy of https://github.com/DavidJ-0/vue-j-scroll.js",
+  "description": "A simple vue seamless scroll component.",
   "keywords": [
     "vue",
+    "vue3",
+    "vite",
     "typescript",
     "scroll"
   ],
