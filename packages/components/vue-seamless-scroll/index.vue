@@ -1,11 +1,11 @@
 <template>
-    <div class="custom-list" ref="scrollBody" @mouseenter="mouseenterFunc" @mouseleave="mouseleaveFunc"
+    <div class="seamless-list" ref="scrollBody" @mouseenter="mouseenterFunc" @mouseleave="mouseleaveFunc"
         @wheel="mousewheelFunc">
-        <div class="list-body" :class="{ 'horizontal': isHorizontal }" ref="listBody"
+        <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" ref="listBody"
             :style="{ transform: getScrollDistance() }">
             <slot></slot>
         </div>
-        <div class="list-body" :class="{ 'horizontal': isHorizontal }" v-if="state.isCanScroll"
+        <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" v-if="state.isCanScroll"
             :style="{ transform: getScrollDistance() }">
             <slot></slot>
         </div>
@@ -63,7 +63,6 @@ const isHorizontal = computed(() => {
 })
 
 watch(() => props.data, (_newVal, _oldVal) => {
-    console.log(_newVal)
     initData()
 })
 
@@ -175,6 +174,7 @@ function mouseleaveFunc() {
 }
 
 function mousewheelFunc(e: WheelEvent) {
+    e.preventDefault()
     if (!state.isCanScroll || !props.roller) {
         return
     }
@@ -189,20 +189,19 @@ function mousewheelFunc(e: WheelEvent) {
 </script>
 
 <style scoped>
-.custom-list {
-    white-space: nowrap;
-    font-size: 0;
+.seamless-list {
+    /* white-space: nowrap;
+    font-size: 0; */
     overflow: hidden;
 }
 
-.list-body {
-    white-space: nowrap;
-    font-size: 0;
+.seamless-list__body {
+    /* white-space: nowrap; */
     overflow: hidden;
 }
 
-.list-body.horizontal {
+.seamless-list__body.is-horizontal {
     display: inline-block;
+    font-size: 0;
 }
 </style>
-./types
