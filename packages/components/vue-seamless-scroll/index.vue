@@ -62,7 +62,7 @@ const isHorizontal = computed(() => {
     return props.direction === 'left' || props.direction === 'right'
 })
 
-watch(() => props.data, (_newVal, _oldVal) => {
+watch(() => props.data, () => {
     initData()
 })
 
