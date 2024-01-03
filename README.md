@@ -3,17 +3,24 @@
 > github: https://github.com/Meruem117/vue-seamless-scroll
 
 
-A simple vue seamless scroll component. Ts version and extension of [@david-j/vue-j-scroll](https://github.com/DavidJ-0/vue-j-scroll.js)
+A simple vue seamless scroll component supports vue3 & vue2. Extension of [@david-j/vue-j-scroll](https://github.com/DavidJ-0/vue-j-scroll.js)
 
 
 
 ## Install
 
 ```shell
+# vue3
 # yarn
-yarn add @meruem117/vue-seamless-scroll --dev
+yarn add @meruem117/vue-seamless-scroll@latest --dev
 # npm
-npm i @meruem117/vue-seamless-scroll --save-dev
+npm i @meruem117/vue-seamless-scroll@latest --save-dev
+
+# vue2
+# yarn
+yarn add @meruem117/vue-seamless-scroll@latest-v2 --dev
+# npm
+npm i @meruem117/vue-seamless-scroll@latest-v2 --save-dev
 ```
 
 
