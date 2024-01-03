@@ -30,12 +30,10 @@ npm i @meruem117/vue-seamless-scroll@latest-v2 --save-dev
 `main.js`
 
 ```js
-import App from './App.vue'
+import Vue from 'vue'
 
 import VueSeamlessScroll from '@meruem117/vue-seamless-scroll'
-
-const app = createApp(App)
-app.use(VueSeamlessScroll)
+Vue.use(VueSeamlessScroll)
 ```
 
 
