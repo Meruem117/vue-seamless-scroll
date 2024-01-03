@@ -1,6 +1,9 @@
 # vue-seamless-scroll
 
-A simple vue seamless scroll component. Ts version and extension of https://github.com/DavidJ-0/vue-j-scroll.js
+> github: https://github.com/Meruem117/vue-seamless-scroll
+
+
+A simple vue seamless scroll component. Ts version and extension of [@david-j/vue-j-scroll](https://github.com/DavidJ-0/vue-j-scroll.js)
 
 
 
@@ -65,5 +68,5 @@ declare module '@meruem117/vue-seamless-scroll'
 
 - 如没有显示请为嵌入的标签设置字体大小
 - 当 `direction` 为 `top` 或 `bottom` 时，要为组件设置高度；当 `direction` 为 `left` 或 `right` 时，要为组件设置宽度
-- reference: https://github.com/DavidJ-0/vue-j-scroll.js#readme
+- reference: [@david-j/vue-j-scroll](https://github.com/DavidJ-0/vue-j-scroll.js)
 
