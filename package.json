@@ -1,6 +1,6 @@
 {
   "name": "@meruem117/vue-seamless-scroll",
-  "version": "0.0.5",
+  "version": "0.0.9",
   "private": false,
   "author": "Meruem117",
   "license": "MIT",
@@ -23,6 +23,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "lib": "vue-cli-service build --target lib --name vue-seamless-scroll packages/index.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -61,5 +62,5 @@
   "files": [
     "dist"
   ],
-  "main": "dist/js/main.js"
+  "main": "dist/vue-seamless-scroll.umd.min.js"
 }
