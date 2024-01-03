@@ -7,6 +7,10 @@ A simple vue seamless scroll component supports vue3 & vue2. Extension of [@davi
 
 
 
+[Document for vue3](https://github.com/Meruem117/vue-seamless-scroll#readme)
+
+
+
 ## Install
 
 ```shell
@@ -31,19 +35,86 @@ npm i @meruem117/vue-seamless-scroll@latest-v2 --save-dev
 
 ```js
 import Vue from 'vue'
+import App from './App.vue'
 
-import VueSeamlessScroll from '@meruem117/vue-seamless-scroll'
+Vue.config.productionTip = false
+
+import VueSeamlessScroll from '../packages'
 Vue.use(VueSeamlessScroll)
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
 ```
 
 
 
-`*.vue`
+`App.vue`
 
 ```vue
-<vue-seamless-scroll class="list" :data="data" direction="top" :steep="0.2" roller :distance="20">
-    <div class="list-item" v-for="item, index in data" :key="index">{{ item.text }}</div>
-</vue-seamless-scroll>
+<template>
+    <div id="app">
+        <div class="box">
+            <vue-seamless-scroll class="list" :data="data" direction="top" :steep="0.2" roller :distance="20">
+                <div class="list-item" v-for="item, index in data" :key="index">{{ item.text }}</div>
+            </vue-seamless-scroll>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'App',
+    data() {
+        return {
+            data: [
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+                { text: 'test' },
+            ]
+        }
+    },
+}
+</script>
+
+<style scoped>
+.box {
+    width: 100%;
+    height: 200px;
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.list {
+    height: 300px;
+    overflow: hidden;
+}
+
+.list-item {
+    width: 500px;
+    height: 100px;
+    margin-bottom: 20px;
+    color: #000;
+    font-size: 14px;
+    background-color: aliceblue;
+}
+</style>
+
 ```
 
 
