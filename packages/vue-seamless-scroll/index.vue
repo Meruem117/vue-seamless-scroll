@@ -24,7 +24,7 @@ export default {
         // 滚动速度
         steep: {
             type: Number,
-            default: 0.2
+            default: 0.5
         },
         // 是否可以滑轮滚动
         roller: {
