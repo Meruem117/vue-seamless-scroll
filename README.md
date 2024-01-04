@@ -36,7 +36,7 @@ npm i @meruem117/vue-seamless-scroll@latest-v2 --save-dev
 ```ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import { VueSeamlessScroll } from '../dist/vue-seamless-scroll.es.js'
+import { VueSeamlessScroll } from '@meruem117/vue-seamless-scroll'
 
 const app = createApp(App)
 app.use(VueSeamlessScroll)
@@ -58,7 +58,7 @@ declare module '@meruem117/vue-seamless-scroll'
 ```vue
 <template>
     <div class="box">
-        <vue-seamless-scroll class="list" :data="data" direction="top" :steep="0.2" roller :distance="20">
+        <vue-seamless-scroll class="list" :data="data" direction="top" :steep="0.5" roller :distance="20">
             <div class="list-item" v-for="item, index in data" :key="index">{{ item.text }}</div>
         </vue-seamless-scroll>
     </div>
@@ -119,7 +119,7 @@ let data = ref([
 | 属性          | 说明                         | 类型                                   | 默认值 |
 | ------------- | ---------------------------- | -------------------------------------- | ------ |
 | **direction** | 滚动的方向                   | 'top' \| 'bottom' \| 'left' \| 'right' | 'top'  |
-| **steep**     | 滚动的速率                   | number                                 | 0.2    |
+| **steep**     | 滚动的速率                   | number                                 | 0.5    |
 | **roller**    | 是否可以使用滚轮滚动         | boolean                                | true   |
 | **distance**  | 滚轮滚动的速率               | number                                 | 20     |
 | **data**      | 接收异步数据，同步任务可不传 | array                                  | -      |

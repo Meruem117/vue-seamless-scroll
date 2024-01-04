@@ -42,7 +42,7 @@ export interface State {
 
 const props = withDefaults(defineProps<Props>(), {
     direction: 'top',
-    steep: 0.2,
+    steep: 0.5,
     roller: true,
     distance: 20
 })
