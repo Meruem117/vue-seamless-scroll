@@ -1,6 +1,6 @@
 {
   "name": "@meruem117/vue-seamless-scroll",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "private": false,
   "author": "Meruem117",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lib": "vue-cli-service build --target lib --name vue-seamless-scroll packages/index.js",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "pub": "npm publish --tag latest-v2"
   },
   "dependencies": {
     "core-js": "^3.8.3",

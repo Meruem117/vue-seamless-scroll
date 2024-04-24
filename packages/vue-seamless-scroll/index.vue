@@ -58,7 +58,9 @@ export default {
     watch: {
         data: {
             handler() {
-                this.initData()
+                this.$nextTick(() => {
+                    this.initData()
+                })
             },
             deep: true
         }
@@ -68,17 +70,22 @@ export default {
             this.initData()
         })
     },
+    destroyed() {
+        stop()
+    },
     methods: {
         initData() {
+            this.stop()
             this.$nextTick(() => {
                 this.scrollDistance = 0
-                this.bodyHeight = this.$refs.scrollBody.clientHeight
-                this.bodyWidth = this.$refs.scrollBody.clientWidth
-                this.listHeight = this.$refs.listBody.clientHeight
-                this.listWidth = this.$refs.listBody.clientWidth
-                this.isCanScroll = true
-                if ((this.bodyHeight !== 0 && this.listHeight !== 0 && this.listHeight >= this.bodyHeight) ||
-                    (this.bodyWidth !== 0 && this.listWidth !== 0 && this.listWidth >= this.bodyWidth)) {
+                this.bodyHeight = this.$refs.scrollBody ? this.$refs.scrollBody.clientHeight : 0
+                this.bodyWidth = this.$refs.scrollBody ? this.$refs.scrollBody.clientWidth : 0
+                this.listHeight = this.$refs.listBody ? this.$refs.listBody.clientHeight : 0
+                this.listWidth = this.$refs.listBody ? this.$refs.listBody.clientWidth : 0
+                this.isCanScroll = false
+                let isExceed = (this.bodyHeight !== 0 && this.listHeight !== 0 && this.listHeight >= this.bodyHeight) ||
+                    (this.bodyWidth !== 0 && this.listWidth !== 0 && this.listWidth >= this.bodyWidth)
+                if (isExceed && this.steep != 0) {
                     this.isCanScroll = true
                     this.start()
                 } else {
@@ -191,13 +198,10 @@ export default {
 
 <style scoped>
 .seamless-list {
-    /* white-space: nowrap;
-    font-size: 0; */
     overflow: hidden;
 }
 
 .seamless-list__body {
-    /* white-space: nowrap; */
     overflow: hidden;
 }
 
