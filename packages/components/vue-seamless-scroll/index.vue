@@ -19,7 +19,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { withDefaults, reactive, ref, computed, watch, nextTick, onMounted } from 'vue'
+import { withDefaults, reactive, ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 
 export interface Props {
     direction?: 'top' | 'bottom' | 'left' | 'right',
@@ -63,7 +63,9 @@ const isHorizontal = computed(() => {
 })
 
 watch(() => props.data, () => {
-    initData()
+    nextTick(() => {
+        initData()
+    })
 })
 
 onMounted(() => {
@@ -72,16 +74,22 @@ onMounted(() => {
     })
 })
 
+onUnmounted(() => {
+    stop()
+})
+
 function initData() {
+    stop()
     nextTick(() => {
         state.scrollDistance = 0
         state.bodyHeight = scrollBody.value?.clientHeight || 0
         state.bodyWidth = scrollBody.value?.clientWidth || 0
         state.listHeight = listBody.value?.clientHeight || 0
         state.listWidth = listBody.value?.clientWidth || 0
-        state.isCanScroll = true
-        if ((state.bodyHeight !== 0 && state.listHeight !== 0 && state.listHeight >= state.bodyHeight) ||
-            (state.bodyWidth !== 0 && state.listWidth !== 0 && state.listWidth >= state.bodyWidth)) {
+        state.isCanScroll = false
+        let isExceed = (state.bodyHeight !== 0 && state.listHeight !== 0 && state.listHeight >= state.bodyHeight) ||
+            (state.bodyWidth !== 0 && state.listWidth !== 0 && state.listWidth >= state.bodyWidth)
+        if (isExceed && props.steep !== 0) {
             state.isCanScroll = true
             start()
         } else {
@@ -190,13 +198,10 @@ function mousewheelFunc(e: WheelEvent) {
 
 <style scoped>
 .seamless-list {
-    /* white-space: nowrap;
-    font-size: 0; */
     overflow: hidden;
 }
 
 .seamless-list__body {
-    /* white-space: nowrap; */
     overflow: hidden;
 }
 

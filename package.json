@@ -1,7 +1,7 @@
 {
   "name": "@meruem117/vue-seamless-scroll",
   "private": false,
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "author": "Meruem117",
   "license": "MIT",
@@ -16,7 +16,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "publish": "npm publish --tag latest"
   },
   "repository": {
     "type": "git",
