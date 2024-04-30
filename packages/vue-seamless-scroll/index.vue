@@ -71,7 +71,7 @@ export default {
         })
     },
     destroyed() {
-        stop()
+        this.stop()
     },
     methods: {
         initData() {
