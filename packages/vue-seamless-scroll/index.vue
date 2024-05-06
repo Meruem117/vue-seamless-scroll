@@ -58,9 +58,7 @@ export default {
     watch: {
         data: {
             handler() {
-                this.$nextTick(() => {
-                    this.initData()
-                })
+                this.initData()
             },
             deep: true
         }
