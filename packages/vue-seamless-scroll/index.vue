@@ -82,10 +82,8 @@ export default {
                 this.bodyWidth = this.$refs.scrollBody ? this.$refs.scrollBody.clientWidth : 0
                 this.listHeight = this.$refs.listBody ? this.$refs.listBody.clientHeight : 0
                 this.listWidth = this.$refs.listBody ? this.$refs.listBody.clientWidth : 0
-                this.isCanScroll = false
-                let isExceed = (this.bodyHeight !== 0 && this.listHeight !== 0 && this.listHeight >= this.bodyHeight) ||
-                    (this.bodyWidth !== 0 && this.listWidth !== 0 && this.listWidth >= this.bodyWidth)
-                if (isExceed && this.steep != 0) {
+                if ((this.bodyHeight !== 0 && this.listHeight !== 0 && this.listHeight >= this.bodyHeight) ||
+                    (this.bodyWidth !== 0 && this.listWidth !== 0 && this.listWidth >= this.bodyWidth)) {
                     this.isCanScroll = true
                     this.start()
                 } else {
@@ -117,20 +115,29 @@ export default {
 
         run() {
             let that = this
-            that.clearAnimation()
-            that.animationFrame = window.requestAnimationFrame(() => {
-                // 滚动主逻辑函数
-                let main = (listSize, bodySize) => {
-                    let scrollDistance = Math.abs(that.scrollDistance)
-                    if (that.scrollDistance < 0) {
-                        let size = 2 * listSize - bodySize
-                        if (scrollDistance > size) {
-                            that.scrollDistance = -(listSize - bodySize)
-                        }
-                    } else {
-                        that.scrollDistance = -listSize
+            this.clearAnimation()
+            // 滚动主逻辑函数
+            let main = (listSize, bodySize) => {
+                let scrollDistance = Math.abs(that.scrollDistance)
+                if (that.scrollDistance < 0) {
+                    let size = 2 * listSize - bodySize
+                    if (scrollDistance > size) {
+                        that.scrollDistance = -(listSize - bodySize)
                     }
+                } else {
+                    that.scrollDistance = -listSize
                 }
+            }
+            if (this.steep == 0) {
+                // 根据滚动方向判断使用高度或宽度控制效果
+                if (!that.isHorizontal) {
+                    main(that.listHeight, that.bodyHeight)
+                } else {
+                    main(that.listWidth, that.bodyWidth)
+                }
+                return
+            }
+            this.animationFrame = window.requestAnimationFrame(() => {
                 // 根据滚动方向判断使用高度或宽度控制效果
                 if (!that.isHorizontal) {
                     main(that.listHeight, that.bodyHeight)
