@@ -1,12 +1,11 @@
 <template>
-    <div class="seamless-list" ref="scrollBody" @mouseenter="mouseenterFunc" @mouseleave="mouseleaveFunc"
-        @wheel="mousewheelFunc">
+    <div class="seamless-list" ref="scrollBody" @mouseenter="onMouseenter" @mouseleave="onMouseleave" @wheel="onWheel">
         <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" ref="listBody"
-            :style="{ transform: getScrollDistance() }">
+            :style="{ transform: getScrollStyle() }">
             <slot></slot>
         </div>
-        <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" v-if="state.isCanScroll"
-            :style="{ transform: getScrollDistance() }">
+        <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" v-if="state.canScroll"
+            :style="{ transform: getScrollStyle() }">
             <slot></slot>
         </div>
     </div>
@@ -30,13 +29,13 @@ export interface Props {
 }
 
 export interface State {
-    scrollDistance: number,
-    bodyHeight: number,
-    bodyWidth: number,
-    listHeight: number,
     listWidth: number,
-    isCanScroll: boolean,
+    listHeight: number,
+    bodyWidth: number,
+    bodyHeight: number,
+    canScroll: boolean,
     isStop: boolean,
+    scrollDistance: number,
     animationFrame: number | null
 }
 
@@ -47,14 +46,14 @@ const props = withDefaults(defineProps<Props>(), {
     distance: 20
 })
 const state: State = reactive({
-    scrollDistance: 0, // 滚动距离
-    bodyHeight: 0, // 滚动容器高度
-    bodyWidth: 0, // 滚动容器宽度
-    listHeight: 0, // 列表高度
-    listWidth: 0, // 列表宽度
-    isCanScroll: true,
+    listWidth: 0,
+    listHeight: 0,
+    bodyWidth: 0,
+    bodyHeight: 0,
+    canScroll: false,
     isStop: false,
-    animationFrame: null,
+    scrollDistance: 0,
+    animationFrame: null
 })
 const scrollBody = ref<HTMLElement>()
 const listBody = ref<HTMLElement>()
@@ -81,65 +80,35 @@ onUnmounted(() => {
 function initData() {
     stop()
     nextTick(() => {
-        state.scrollDistance = 0
-        state.bodyHeight = scrollBody.value?.clientHeight || 0
-        state.bodyWidth = scrollBody.value?.clientWidth || 0
-        state.listHeight = listBody.value?.clientHeight || 0
         state.listWidth = listBody.value?.clientWidth || 0
-        state.isCanScroll = false
-        let isExceed = (state.bodyHeight !== 0 && state.listHeight !== 0 && state.listHeight >= state.bodyHeight) ||
-            (state.bodyWidth !== 0 && state.listWidth !== 0 && state.listWidth >= state.bodyWidth)
-        if (isExceed && props.steep !== 0) {
-            state.isCanScroll = true
-            start()
-        } else {
-            state.isCanScroll = false
-        }
+        state.listHeight = listBody.value?.clientHeight || 0
+        state.bodyWidth = scrollBody.value?.clientWidth || 0
+        state.bodyHeight = scrollBody.value?.clientHeight || 0
+        state.scrollDistance = 0
+        start()
     })
 }
 
 function start() {
-    // 判断是否可以滚动函数
-    const isScrollFunc = (bodySize: number, listSize: number) => {
-        if (bodySize > listSize) {
-            state.scrollDistance = 0
-            state.isCanScroll = false
-        }
-    }
     state.isStop = false
-    // 判断是否可以滚动
-    if (!isHorizontal.value) {
-        isScrollFunc(state.bodyHeight, state.listHeight)
+    if (isHorizontal.value) {
+        getCanScroll(state.listWidth, state.bodyWidth)
     } else {
-        isScrollFunc(state.bodyWidth, state.listWidth)
+        getCanScroll(state.listHeight, state.bodyHeight)
     }
-    if (state.isCanScroll) {
+    if (state.canScroll) {
         run()
     }
 }
 
 function run() {
     clearAnimation()
+    if (props.steep == 0) {
+        setScrollDistance()
+        return
+    }
     state.animationFrame = window.requestAnimationFrame(() => {
-        // 滚动主逻辑函数
-        const main = (listSize: number, bodySize: number) => {
-            let scrollDistance = Math.abs(state.scrollDistance)
-            if (state.scrollDistance < 0) {
-                let size = 2 * listSize - bodySize
-                if (scrollDistance > size) {
-                    state.scrollDistance = -(listSize - bodySize);
-                }
-            } else {
-                state.scrollDistance = -listSize
-            }
-        }
-        // 根据滚动方向判断使用高度或宽度控制效果
-        if (!isHorizontal.value) {
-            main(state.listHeight, state.bodyHeight)
-        } else {
-            main(state.listWidth, state.bodyWidth)
-        }
-        // 判断滚动值
+        setScrollDistance()
         if (!state.isStop) {
             if (props.direction === 'top' || props.direction === 'left') {
                 state.scrollDistance -= props.steep
@@ -156,12 +125,36 @@ function stop() {
     clearAnimation()
 }
 
-function getScrollDistance() {
-    let style = ''
-    if (!isHorizontal.value) {
-        style = `translate(0, ${state.scrollDistance}px)`
+function getCanScroll(listSize: number, bodySize: number) {
+    state.canScroll = (listSize && bodySize) ? listSize > bodySize : false
+}
+
+function setScrollDistance() {
+    if (isHorizontal.value) {
+        getScrollDistance(state.listWidth, state.bodyWidth)
     } else {
+        getScrollDistance(state.listHeight, state.bodyHeight)
+    }
+}
+
+function getScrollDistance(listSize: number, bodySize: number) {
+    let scrollDistance = Math.abs(state.scrollDistance)
+    if (state.scrollDistance < 0) {
+        let size = 2 * listSize - bodySize
+        if (scrollDistance > size) {
+            state.scrollDistance = -(listSize - bodySize)
+        }
+    } else {
+        state.scrollDistance = -listSize
+    }
+}
+
+function getScrollStyle() {
+    let style = ''
+    if (isHorizontal.value) {
         style = `translate(${state.scrollDistance}px, 0)`
+    } else {
+        style = `translate(0, ${state.scrollDistance}px)`
     }
     return style
 }
@@ -173,17 +166,17 @@ function clearAnimation() {
     }
 }
 
-function mouseenterFunc() {
+function onMouseenter() {
     stop()
 }
 
-function mouseleaveFunc() {
+function onMouseleave() {
     start()
 }
 
-function mousewheelFunc(e: WheelEvent) {
+function onWheel(e: WheelEvent) {
     e.preventDefault()
-    if (!state.isCanScroll || !props.roller) {
+    if (!state.canScroll || !props.roller) {
         return
     }
     let dis = e.deltaY
