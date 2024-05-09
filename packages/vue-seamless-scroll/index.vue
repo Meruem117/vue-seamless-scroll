@@ -105,7 +105,6 @@ export default {
                 return
             }
             this.animationFrame = window.requestAnimationFrame(() => {
-                console.log(123)
                 that.setScrollDistance()
                 if (!that.isStop) {
                     if (that.direction === 'top' || that.direction === 'left') {

@@ -3,9 +3,6 @@
 > github: https://github.com/Meruem117/vue-seamless-scroll/tree/vue2
 
 
-A simple vue seamless scroll component supports vue3 & vue2. Extension of [@david-j/vue-j-scroll](https://github.com/DavidJ-0/vue-j-scroll.js)
-
-
 
 [Document for vue3](https://github.com/Meruem117/vue-seamless-scroll#readme)
 
