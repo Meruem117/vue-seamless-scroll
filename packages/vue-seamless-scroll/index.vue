@@ -1,12 +1,11 @@
 <template>
-    <div class="seamless-list" ref="scrollBody" @mouseenter="mouseenterFunc" @mouseleave="mouseleaveFunc"
-        @wheel="mousewheelFunc">
+    <div class="seamless-list" ref="scrollBody" @mouseenter="onMouseenter" @mouseleave="onMouseleave" @wheel="onWheel">
         <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" ref="listBody"
-            :style="{ transform: getScrollDistance() }">
+            :style="{ transform: getScrollStyle() }">
             <slot></slot>
         </div>
-        <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" v-if="isCanScroll"
-            :style="{ transform: getScrollDistance() }">
+        <div class="seamless-list__body" :class="{ 'is-horizontal': isHorizontal }" v-if="canScroll"
+            :style="{ transform: getScrollStyle() }">
             <slot></slot>
         </div>
     </div>
@@ -40,14 +39,14 @@ export default {
     },
     data() {
         return {
-            scrollDistance: 0, // 滚动距离
-            bodyHeight: 0, // 滚动容器高度
-            bodyWidth: 0, // 滚动容器宽度
-            listHeight: 0, // 列表高度
-            listWidth: 0, // 列表宽度
-            isCanScroll: true,
+            listWidth: 0,
+            listHeight: 0,
+            bodyWidth: 0,
+            bodyHeight: 0,
+            canScroll: false,
             isStop: false,
-            animationFrame: null,
+            scrollDistance: 0,
+            animationFrame: null
         }
     },
     computed: {
@@ -77,74 +76,37 @@ export default {
         initData() {
             this.stop()
             this.$nextTick(() => {
-                this.scrollDistance = 0
-                this.bodyHeight = this.$refs.scrollBody ? this.$refs.scrollBody.clientHeight : 0
-                this.bodyWidth = this.$refs.scrollBody ? this.$refs.scrollBody.clientWidth : 0
-                this.listHeight = this.$refs.listBody ? this.$refs.listBody.clientHeight : 0
                 this.listWidth = this.$refs.listBody ? this.$refs.listBody.clientWidth : 0
-                if ((this.bodyHeight !== 0 && this.listHeight !== 0 && this.listHeight >= this.bodyHeight) ||
-                    (this.bodyWidth !== 0 && this.listWidth !== 0 && this.listWidth >= this.bodyWidth)) {
-                    this.isCanScroll = true
-                    this.start()
-                } else {
-                    this.isCanScroll = false
-                }
+                this.listHeight = this.$refs.listBody ? this.$refs.listBody.clientHeight : 0
+                this.bodyWidth = this.$refs.scrollBody ? this.$refs.scrollBody.clientWidth : 0
+                this.bodyHeight = this.$refs.scrollBody ? this.$refs.scrollBody.clientHeight : 0
+                this.scrollDistance = 0
+                this.start()
             })
         },
 
         start() {
-            let that = this
-            // 判断是否可以滚动函数
-            let isScrollFunc = (bodySize, listSize) => {
-                if (bodySize > listSize) {
-                    that.scrollDistance = 0
-                    that.isCanScroll = false
-                }
-            }
-            that.isStop = false
-            // 判断是否可以滚动
-            if (!that.isHorizontal) {
-                isScrollFunc(that.bodyHeight, that.listHeight)
+            this.isStop = false
+            if (this.isHorizontal) {
+                this.getCanScroll(this.listWidth, this.bodyWidth)
             } else {
-                isScrollFunc(that.bodyWidth, that.listWidth)
+                this.getCanScroll(this.listHeight, this.bodyHeight)
             }
-            if (that.isCanScroll) {
-                that.run()
+            if (this.canScroll) {
+                this.run()
             }
         },
 
         run() {
             let that = this
             this.clearAnimation()
-            // 滚动主逻辑函数
-            let main = (listSize, bodySize) => {
-                let scrollDistance = Math.abs(that.scrollDistance)
-                if (that.scrollDistance < 0) {
-                    let size = 2 * listSize - bodySize
-                    if (scrollDistance > size) {
-                        that.scrollDistance = -(listSize - bodySize)
-                    }
-                } else {
-                    that.scrollDistance = -listSize
-                }
-            }
             if (this.steep == 0) {
-                // 根据滚动方向判断使用高度或宽度控制效果
-                if (!that.isHorizontal) {
-                    main(that.listHeight, that.bodyHeight)
-                } else {
-                    main(that.listWidth, that.bodyWidth)
-                }
+                this.setScrollDistance()
                 return
             }
             this.animationFrame = window.requestAnimationFrame(() => {
-                // 根据滚动方向判断使用高度或宽度控制效果
-                if (!that.isHorizontal) {
-                    main(that.listHeight, that.bodyHeight)
-                } else {
-                    main(that.listWidth, that.bodyWidth)
-                }
-                // 判断滚动值
+                console.log(123)
+                that.setScrollDistance()
                 if (!that.isStop) {
                     if (that.direction === 'top' || that.direction === 'left') {
                         that.scrollDistance -= that.steep
@@ -161,7 +123,31 @@ export default {
             this.clearAnimation()
         },
 
-        getScrollDistance() {
+        getCanScroll(listSize, bodySize) {
+            this.canScroll = listSize && bodySize && listSize > bodySize
+        },
+
+        setScrollDistance() {
+            if (this.isHorizontal) {
+                this.getScrollDistance(this.listWidth, this.bodyWidth)
+            } else {
+                this.getScrollDistance(this.listHeight, this.bodyHeight)
+            }
+        },
+
+        getScrollDistance(listSize, bodySize) {
+            let scrollDistance = Math.abs(this.scrollDistance)
+            if (this.scrollDistance < 0) {
+                let size = 2 * listSize - bodySize
+                if (scrollDistance > size) {
+                    this.scrollDistance = -(listSize - bodySize)
+                }
+            } else {
+                this.scrollDistance = -listSize
+            }
+        },
+
+        getScrollStyle() {
             let style = ''
             if (!this.isHorizontal) {
                 style = `translate(0, ${this.scrollDistance}px)`
@@ -178,17 +164,17 @@ export default {
             }
         },
 
-        mouseenterFunc() {
+        onMouseenter() {
             this.stop()
         },
 
-        mouseleaveFunc() {
+        onMouseleave() {
             this.start()
         },
 
-        mousewheelFunc(e) {
+        onWheel(e) {
             e.preventDefault()
-            if (!this.isCanScroll || !this.roller) {
+            if (!this.canScroll || !this.roller) {
                 return false
             }
             let dis = e.deltaY
@@ -199,7 +185,7 @@ export default {
             }
             this.run()
         }
-    },
+    }
 }
 </script>
 
